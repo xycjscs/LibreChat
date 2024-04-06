@@ -33,11 +33,12 @@ const formSet: Set<string> = new Set([
 ]);
 
 const EXPIRY = {
+  Never: { display: 'Never', value: 99 * 12 * 30 * 24 * 60 * 60 * 1000 },
   THIRTY_MINUTES: { display: 'in 30 minutes', value: 30 * 60 * 1000 },
-  TWO_HOURS: { display: 'in 2 hours', value: 2 * 60 * 60 * 1000 },
+  //TWO_HOURS: { display: 'in 2 hours', value: 2 * 60 * 60 * 1000 },
   TWELVE_HOURS: { display: 'in 12 hours', value: 12 * 60 * 60 * 1000 },
-  ONE_DAY: { display: 'in 1 day', value: 24 * 60 * 60 * 1000 },
-  ONE_WEEK: { display: 'in 7 days', value: 7 * 24 * 60 * 60 * 1000 },
+  //ONE_DAY: { display: 'in 1 day', value: 24 * 60 * 60 * 1000 },
+  //ONE_WEEK: { display: 'in 7 days', value: 7 * 24 * 60 * 60 * 1000 },
   ONE_MONTH: { display: 'in 30 days', value: 30 * 24 * 60 * 60 * 1000 },
 };
 
@@ -69,7 +70,7 @@ const SetKeyDialog = ({
 
   const [userKey, setUserKey] = useState('');
   const { data: endpointsConfig } = useGetEndpointsQuery();
-  const [expiresAtLabel, setExpiresAtLabel] = useState(EXPIRY.TWELVE_HOURS.display);
+  const [expiresAtLabel, setExpiresAtLabel] = useState(EXPIRY.Never.display);
   const { getExpiry, saveUserKey } = useUserKey(endpoint);
   const { showToast } = useToastContext();
   const localize = useLocalize();

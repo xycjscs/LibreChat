@@ -213,6 +213,10 @@ export const getResponseSender = (endpointOption: TEndpointOption): string => {
       return 'GPT-4';
     } else if (model && model.includes('mistral')) {
       return 'Mistral';
+    } else if (model && model.includes('claude')) {
+      return 'Claude';
+    } else if (model && model.includes('google')) {
+      return 'Google';
     }
     return alternateName[endpoint] ?? 'ChatGPT';
   }
@@ -244,6 +248,10 @@ export const getResponseSender = (endpointOption: TEndpointOption): string => {
       return chatGptLabel;
     } else if (model && model.includes('mistral')) {
       return 'Mistral';
+    } else if (model && model.includes('claude')) {
+      return 'Claude';
+    } else if (model && model.includes('google')) {
+      return 'Google';
     } else if (model && model.includes('gpt-3')) {
       return 'GPT-3.5';
     } else if (model && model.includes('gpt-4')) {

@@ -1,3 +1,5 @@
+const { Transaction } = require('~/models/Transaction');
+
 const crypto = require('crypto');
 const cookies = require('cookie');
 const jwt = require('jsonwebtoken');
@@ -20,6 +22,15 @@ const registrationController = async (req, res) => {
         newUser = new User(user);
         await newUser.save();
       }
+
+      //new user have 100,000 tokens
+      await Transaction.create({
+        user: user._id,
+        tokenType: 'credits',
+        context: 'admin',
+        rawAmount: 100000,
+      });
+
       const token = await setAuthTokens(user._id, res);
       res.setHeader('Authorization', `Bearer ${token}`);
       res.status(status).send({ user });

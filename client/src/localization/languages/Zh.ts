@@ -86,7 +86,7 @@ export default {
   com_auth_continue: '继续',
   com_auth_create_account: '创建账号',
   com_auth_error_create: '注册账户过程中出现错误，请重试。',
-  com_auth_full_name: '姓名',
+  com_auth_full_name: '姓名（必须实名），定期清理',
   com_auth_name_required: '姓名为必填项',
   com_auth_name_min_length: '姓名至少3个字符',
   com_auth_name_max_length: '姓名最多80个字符',

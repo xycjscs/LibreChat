@@ -12,8 +12,8 @@ use_directory_urls: false
 
 theme:
   name: material
-  logo: assets/LibreChat.svg
-  favicon: assets/favicon_package/favicon-32x32.png
+  logo: assets/favicon.png
+  favicon: assets/favicon_package/favicon.png
 
   palette:
 
@@ -125,4 +125,4 @@ extra:
       name: Hugging Face
 
 copyright:
-  © 2024 <a href="https://librechat.ai/" target="_blank" rel="noopener">LibreChat</a>
+  © 2024 <a href="https://librechat.ai/" target="_blank" rel="noopener">MIML</a>

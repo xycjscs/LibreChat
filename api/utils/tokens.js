@@ -125,13 +125,14 @@ function getModelMaxTokens(modelName, endpoint = EModelEndpoint.openAI, endpoint
     return tokensMap[modelName];
   }
 
-  const keys = Object.keys(tokensMap);
-  for (let i = keys.length - 1; i >= 0; i--) {
-    if (modelName.includes(keys[i])) {
-      const result = tokensMap[keys[i]];
-      return result?.context ?? result;
-    }
-  }
+  // not compatiable to openrouter
+  //const keys = Object.keys(tokensMap);
+  //for (let i = keys.length - 1; i >= 0; i--) {
+  //  if (modelName.includes(keys[i])) {
+  //    const result = tokensMap[keys[i]];
+  //    return result?.context ?? result;
+  //  }
+  //}
 
   return undefined;
 }
@@ -163,13 +164,14 @@ function matchModelName(modelName, endpoint = EModelEndpoint.openAI) {
     return modelName;
   }
 
-  const keys = Object.keys(tokensMap);
-  for (let i = keys.length - 1; i >= 0; i--) {
-    const modelKey = keys[i];
-    if (modelName.includes(modelKey)) {
-      return modelKey;
-    }
-  }
+  // not compatiable to openrouter
+  //const keys = Object.keys(tokensMap);
+  //for (let i = keys.length - 1; i >= 0; i--) {
+  //  const modelKey = keys[i];
+  //  if (modelName.includes(modelKey)) {
+  //    return modelKey;
+  //  }
+  //}
 
   return modelName;
 }
