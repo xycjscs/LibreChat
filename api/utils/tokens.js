@@ -49,7 +49,7 @@ const openAIModels = {
   'gpt-4-1106': 127990, // -10 from max
   'gpt-4-0125': 127990, // -10 from max
   'gpt-4-turbo': 127990, // -10 from max
-  'gpt-3.5-turbo': 4092, // -5 from max
+  'gpt-3.5-turbo': 16375, // -10 from max
   'gpt-3.5-turbo-0613': 4092, // -5 from max
   'gpt-3.5-turbo-0301': 4092, // -5 from max
   'gpt-3.5-turbo-16k': 16375, // -10 from max
@@ -61,17 +61,17 @@ const openAIModels = {
 
 const googleModels = {
   /* Max I/O is combined so we subtract the amount from max response tokens for actual total */
-  gemini: 32750, // -10 from max
+  gemini: 130000, // -10 from max
   'text-bison-32k': 32758, // -10 from max
   'chat-bison-32k': 32758, // -10 from max
   'code-bison-32k': 32758, // -10 from max
   'codechat-bison-32k': 32758,
   /* Codey, -5 from max: 6144 */
-  'code-': 6139,
-  'codechat-': 6139,
+  //'code-': 6139,
+  //'codechat-': 6139,
   /* PaLM2, -5 from max: 8192 */
-  'text-': 8187,
-  'chat-': 8187,
+  //'text-': 8187,
+  //'chat-': 8187,
 };
 
 const anthropicModels = {
@@ -126,13 +126,13 @@ function getModelMaxTokens(modelName, endpoint = EModelEndpoint.openAI, endpoint
   }
 
   // not compatiable to openrouter
-  //const keys = Object.keys(tokensMap);
-  //for (let i = keys.length - 1; i >= 0; i--) {
-  //  if (modelName.includes(keys[i])) {
-  //    const result = tokensMap[keys[i]];
-  //    return result?.context ?? result;
-  //  }
-  //}
+  const keys = Object.keys(tokensMap);
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (modelName.includes(keys[i])) {
+      const result = tokensMap[keys[i]];
+      return result?.context ?? result;
+    }
+  }
 
   return undefined;
 }
