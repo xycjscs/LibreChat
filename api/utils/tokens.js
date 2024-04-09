@@ -59,6 +59,14 @@ const openAIModels = {
   'mistral-': 31990, // -10 from max
 };
 
+const cohereModels = {
+  'command-light': 4086, // -10 from max
+  'command-light-nightly': 8182, // -10 from max
+  'command-nightly': 8182, // -10 from max
+  'command-r': 127500, // -500 from max
+  'command-r-plus:': 127500, // -500 from max
+};
+
 const googleModels = {
   /* Max I/O is combined so we subtract the amount from max response tokens for actual total */
   gemini: 130000, // -10 from max
@@ -208,17 +216,19 @@ const openrouterModels = {
   'cohere/command-r': 127990,
   'cohere/command-r-plus': 127990,
 };
+const aggregateModels = { ...openAIModels, ...googleModels, ...anthropicModels, ...cohereModels };
 
 // Order is important here: by model series and context size (gpt-4 then gpt-3, ascending)
 const maxTokensMap = {
   [EModelEndpoint.azureOpenAI]: openAIModels,
-  [EModelEndpoint.openAI]: { ...openAIModels, ...googleModels, ...anthropicModels },
   [EModelEndpoint.custom]: {
     ...openrouterModels,
     ...openAIModels,
     ...googleModels,
     ...anthropicModels,
+    ...cohereModels,
   },
+  [EModelEndpoint.openAI]: aggregateModels,
   [EModelEndpoint.google]: googleModels,
   [EModelEndpoint.anthropic]: anthropicModels,
 };
@@ -337,6 +347,12 @@ function processModelData(input) {
 
   for (const model of data) {
     const modelKey = model.id;
+    if (modelKey === 'openrouter/auto') {
+      model.pricing = {
+        prompt: '0.00001',
+        completion: '0.00003',
+      };
+    }
     const prompt = parseFloat(model.pricing.prompt) * 1000000;
     const completion = parseFloat(model.pricing.completion) * 1000000;
 

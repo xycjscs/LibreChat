@@ -3,6 +3,7 @@ const defaultRate = 6;
 
 /**
  * Mapping of model token sizes to their respective multipliers for prompt and completion.
+ * The rates are 1 USD per 1M tokens.
  * @type {Object.<string, {prompt: number, completion: number}>}
  */
 const tokenValues = {
@@ -139,6 +140,8 @@ const tokenValues = {
   'cohere/command': { prompt: 1.0, completion: 2.0 },
   'cohere/command-r': { prompt: 0.5, completion: 1.5 },
   'cohere/command-r-plus': { prompt: 3.0, completion: 15.0 },
+  'command-r-plus': { prompt: 3, completion: 15 },
+  'command-r': { prompt: 0.5, completion: 1.5 },
 };
 
 /**
