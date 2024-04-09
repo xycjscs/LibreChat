@@ -221,6 +221,7 @@ const aggregateModels = { ...openAIModels, ...googleModels, ...anthropicModels, 
 // Order is important here: by model series and context size (gpt-4 then gpt-3, ascending)
 const maxTokensMap = {
   [EModelEndpoint.azureOpenAI]: openAIModels,
+  [EModelEndpoint.openAI]: aggregateModels,
   [EModelEndpoint.custom]: {
     ...openrouterModels,
     ...openAIModels,
@@ -228,7 +229,6 @@ const maxTokensMap = {
     ...anthropicModels,
     ...cohereModels,
   },
-  [EModelEndpoint.openAI]: aggregateModels,
   [EModelEndpoint.google]: googleModels,
   [EModelEndpoint.anthropic]: anthropicModels,
 };
