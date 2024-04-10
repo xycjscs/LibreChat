@@ -69,6 +69,7 @@ const tokenValues = {
   'openai/gpt-3.5-turbo-0301': { prompt: 1.0, completion: 2.0 },
   'openai/gpt-3.5-turbo-16k': { prompt: 3.0, completion: 4.0 },
   'openai/gpt-4-turbo-preview': { prompt: 10.0, completion: 30.0 },
+  'openai/gpt-4-turbo': { prompt: 10.0, completion: 30.0 },
   'openai/gpt-4-1106-preview': { prompt: 10.0, completion: 30.0 },
   'openai/gpt-4': { prompt: 30.0, completion: 60.0 },
   'openai/gpt-4-0314': { prompt: 30.0, completion: 60.0 },

@@ -144,6 +144,7 @@ const openrouterModels = {
   'openai/gpt-3.5-turbo-0301': 4085,
   'openai/gpt-3.5-turbo-16k': 16375,
   'openai/gpt-4-turbo-preview': 127990,
+  'openai/gpt-4-turbo': 127990,
   'openai/gpt-4-1106-preview': 127990,
   'openai/gpt-4': 8181,
   'openai/gpt-4-0314': 8181,
