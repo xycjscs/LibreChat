@@ -92,6 +92,8 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
+  'mistralai/mixtral-8x22b:free': 65526,
+  //'mistralai/mixtral-8x22b': 65526,
   'nousresearch/nous-capybara-7b:free': 4086,
   'mistralai/mistral-7b-instruct:free': 32758,
   'gryphe/mythomist-7b:free': 32758,

@@ -17,6 +17,8 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
+  'mistralai/mixtral-8x22b:free': { prompt: 0.0, completion: 0.0 },
+  //'mistralai/mixtral-8x22b': { prompt: 1.08, completion: 1.08 },
   'nousresearch/nous-capybara-7b:free': { prompt: 0.0, completion: 0.0 },
   'mistralai/mistral-7b-instruct:free': { prompt: 0.0, completion: 0.0 },
   'gryphe/mythomist-7b:free': { prompt: 0.0, completion: 0.0 },
