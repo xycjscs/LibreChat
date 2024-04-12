@@ -17,6 +17,7 @@ import NavLink from './NavLink';
 import Logout from './Logout';
 import { cn } from '~/utils/';
 import store from '~/store';
+import TokenModal from './TokenModal';
 
 function NavLinks() {
   const localize = useLocalize();
@@ -29,6 +30,7 @@ function NavLinks() {
   const [showExports, setShowExports] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showFiles, setShowFiles] = useRecoilState(store.showFiles);
+  const [showTokens, setShowTokens] = useState(false);
 
   const activeConvo = useRecoilValue(store.conversationByIndex(0));
   const globalConvo = useRecoilValue(store.conversation) ?? ({} as TConversation);
@@ -53,6 +55,21 @@ function NavLinks() {
       setShowExports(true);
     }
   };
+
+  const StarIcon = (props) => (
+    <svg
+      className={props.className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+    </svg>
+  );
 
   return (
     <>
@@ -150,6 +167,14 @@ function NavLinks() {
                     clickHandler={() => setShowSettings(true)}
                   />
                 </Menu.Item>
+                <Menu.Item as="div">
+                  <NavLink
+                    className="flex w-full cursor-pointer items-center gap-3 rounded-none px-3 py-3 text-sm text-black transition-colors duration-200 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    svg={() => <StarIcon className="icon-md" />}
+                    text={'兑换Token'}
+                    clickHandler={() => setShowTokens(true)}
+                  />
+                </Menu.Item>
                 <div className="my-1 h-px bg-black/20 bg-white/20" role="none" />
                 <Menu.Item as="div">
                   <Logout />
@@ -164,6 +189,7 @@ function NavLinks() {
       )}
       {showFiles && <FilesView open={showFiles} onOpenChange={setShowFiles} />}
       {showSettings && <Settings open={showSettings} onOpenChange={setShowSettings} />}
+      {showTokens && <TokenModal open={showTokens} onClose={() => setShowTokens(false)} />}
     </>
   );
 }
