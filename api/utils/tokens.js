@@ -92,6 +92,7 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
+  'huggingfaceh4/zephyr-orpo-141b-a35b': 65526,
   'mistralai/mixtral-8x22b:free': 65526,
   //'mistralai/mixtral-8x22b': 65526,
   'nousresearch/nous-capybara-7b:free': 4086,

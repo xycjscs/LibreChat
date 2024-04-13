@@ -17,6 +17,7 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
+  'huggingfaceh4/zephyr-orpo-141b-a35b': { prompt: 0.65, completion: 0.65 },
   'mistralai/mixtral-8x22b:free': { prompt: 0.0, completion: 0.0 },
   //'mistralai/mixtral-8x22b': { prompt: 1.08, completion: 1.08 },
   'nousresearch/nous-capybara-7b:free': { prompt: 0.0, completion: 0.0 },
