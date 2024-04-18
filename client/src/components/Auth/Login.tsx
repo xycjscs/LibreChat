@@ -128,11 +128,6 @@ function Login() {
         >
           {localize('com_auth_welcome_back')}
         </h1>
-        <p className="my-4 text-center text-sm font-light text-gray-700 dark:text-white">
-          <a href="https://legacy.miml.org" className="p-1 font-medium text-green-500">
-            旧版MIML入口
-          </a>
-        </p>
         {error && (
           <div
             className="rounded-md border border-red-500 bg-red-500/10 px-3 py-2 text-sm text-gray-600 dark:text-gray-200"

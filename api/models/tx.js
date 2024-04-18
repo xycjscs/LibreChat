@@ -17,6 +17,7 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
+  'google/gemini-pro-1.5': { prompt: 2.5, completion: 7.5 },
   'microsoft/wizardlm-2-7b': { prompt: 0.1, completion: 0.1 },
   'microsoft/wizardlm-2-8x22b:nitro': { prompt: 1.0, completion: 1.0 },
   'nousresearch/nous-capybara-7b:free': { prompt: 0.0, completion: 0.0 },
