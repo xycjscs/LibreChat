@@ -17,9 +17,8 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
-  'huggingfaceh4/zephyr-orpo-141b-a35b': { prompt: 0.65, completion: 0.65 },
-  'mistralai/mixtral-8x22b:free': { prompt: 0.0, completion: 0.0 },
-  //'mistralai/mixtral-8x22b': { prompt: 1.08, completion: 1.08 },
+  'microsoft/wizardlm-2-7b': { prompt: 0.1, completion: 0.1 },
+  'microsoft/wizardlm-2-8x22b:nitro': { prompt: 1.0, completion: 1.0 },
   'nousresearch/nous-capybara-7b:free': { prompt: 0.0, completion: 0.0 },
   'mistralai/mistral-7b-instruct:free': { prompt: 0.0, completion: 0.0 },
   'gryphe/mythomist-7b:free': { prompt: 0.0, completion: 0.0 },

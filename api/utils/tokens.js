@@ -92,9 +92,8 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
-  'huggingfaceh4/zephyr-orpo-141b-a35b': 65526,
-  'mistralai/mixtral-8x22b:free': 65526,
-  //'mistralai/mixtral-8x22b': 65526,
+  'microsoft/wizardlm-2-7b': 31990,
+  'microsoft/wizardlm-2-8x22b:nitro': 65526,
   'nousresearch/nous-capybara-7b:free': 4086,
   'mistralai/mistral-7b-instruct:free': 32758,
   'gryphe/mythomist-7b:free': 32758,
