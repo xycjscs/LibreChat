@@ -94,6 +94,7 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
+  'meta-llama/llama-3-70b-instruct': 8182,
   'google/gemini-pro-1.5': 2790000,
   'microsoft/wizardlm-2-7b': 31990,
   'microsoft/wizardlm-2-8x22b:nitro': 65526,
