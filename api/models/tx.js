@@ -17,6 +17,8 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
+  'mistralai/mixtral-8x22b-instruct': { prompt: 0.65, completion: 0.65 },
+  'meta-llama/llama-3-70b-instruct:nitro': { prompt: 0.9, completion: 0.9 },
   'meta-llama/llama-3-70b-instruct': { prompt: 0.9, completion: 0.9 },
   'google/gemini-pro-1.5': { prompt: 2.5, completion: 7.5 },
   'microsoft/wizardlm-2-7b': { prompt: 0.1, completion: 0.1 },

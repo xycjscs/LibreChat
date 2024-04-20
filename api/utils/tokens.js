@@ -94,6 +94,8 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
+  'mistralai/mixtral-8x22b-instruct': 65526,
+  'meta-llama/llama-3-70b-instruct:nitro': 8182,
   'meta-llama/llama-3-70b-instruct': 8182,
   'google/gemini-pro-1.5': 2790000,
   'microsoft/wizardlm-2-7b': 31990,
