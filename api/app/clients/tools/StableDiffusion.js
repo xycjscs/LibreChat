@@ -47,8 +47,8 @@ Guidelines:
     const payload = {
       prompt: input.split('|')[0],
       negative_prompt: input.split('|')[1],
-      sampler_index: 'DPM++ 2M Karras',
-      cfg_scale: 4.5,
+      sampler_index: 'DPM++ 3M SDE Exponential',
+      cfg_scale: 6,
       steps: 22,
       width: 1024,
       height: 1024,
