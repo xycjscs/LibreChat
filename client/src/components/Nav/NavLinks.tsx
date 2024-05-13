@@ -151,7 +151,6 @@ function NavLinks() {
                 </Menu.Item>
                 <Menu.Item as="div">
                   <NavLink
-                    className="flex w-full cursor-pointer items-center gap-3 rounded-none px-3 py-3 text-sm text-black transition-colors duration-200 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     svg={() => <StarIcon className="icon-md" />}
                     text={'兑换Token'}
                     clickHandler={() => setShowTokens(true)}
