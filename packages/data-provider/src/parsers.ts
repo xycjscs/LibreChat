@@ -15,6 +15,7 @@ import {
   compactAnthropicSchema,
   compactChatGPTSchema,
   compactPluginsSchema,
+  compactAssistantSchema,
 } from './schemas';
 import { alternateName } from './config';
 
@@ -268,7 +269,7 @@ export const getResponseSender = (endpointOption: TEndpointOption): string => {
 
 type CompactEndpointSchema =
   | typeof compactOpenAISchema
-  | typeof assistantSchema
+  | typeof compactAssistantSchema
   | typeof compactGoogleSchema
   | typeof bingAISchema
   | typeof compactAnthropicSchema
@@ -279,7 +280,7 @@ const compactEndpointSchemas: Record<string, CompactEndpointSchema> = {
   [EModelEndpoint.openAI]: compactOpenAISchema,
   [EModelEndpoint.azureOpenAI]: compactOpenAISchema,
   [EModelEndpoint.custom]: compactOpenAISchema,
-  [EModelEndpoint.assistants]: assistantSchema,
+  [EModelEndpoint.assistants]: compactAssistantSchema,
   [EModelEndpoint.google]: compactGoogleSchema,
   /* BingAI needs all fields */
   [EModelEndpoint.bingAI]: bingAISchema,
