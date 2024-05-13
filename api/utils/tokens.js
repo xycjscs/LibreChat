@@ -95,6 +95,13 @@ const anthropicModels = {
 };
 
 const openrouterModels = {
+  'liuhaotian/llava-yi-34b': 4086,
+  'qwen/qwen-72b-chat': 32758,
+  'qwen/qwen-110b-chat': 32758,
+  'qwen/qwen-32b-chat': 32758,
+  'qwen/qwen-14b-chat': 32758,
+  'qwen/qwen-7b-chat': 32758,
+  'qwen/qwen-4b-chat': 32758,
   'mistralai/mixtral-8x22b-instruct': 65526,
   'meta-llama/llama-3-70b-instruct:nitro': 8182,
   'meta-llama/llama-3-70b-instruct': 8182,

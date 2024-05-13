@@ -17,6 +17,13 @@ const tokenValues = {
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
   //openrouter models
+  'liuhaotian/llava-yi-34b': { prompt: 0.9, completion: 0.9 },
+  'qwen/qwen-72b-chat': { prompt: 0.9, completion: 0.9 },
+  'qwen/qwen-110b-chat': { prompt: 1.62, completion: 1.62 },
+  'qwen/qwen-32b-chat': { prompt: 0.72, completion: 0.72 },
+  'qwen/qwen-14b-chat': { prompt: 0.27, completion: 0.27 },
+  'qwen/qwen-7b-chat': { prompt: 0.18, completion: 0.18 },
+  'qwen/qwen-4b-chat': { prompt: 0.09, completion: 0.09 },
   'mistralai/mixtral-8x22b-instruct': { prompt: 0.65, completion: 0.65 },
   'meta-llama/llama-3-70b-instruct:nitro': { prompt: 0.9, completion: 0.9 },
   'meta-llama/llama-3-70b-instruct': { prompt: 0.9, completion: 0.9 },
