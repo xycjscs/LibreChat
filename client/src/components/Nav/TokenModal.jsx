@@ -42,7 +42,7 @@ function TokenModal({ open, onClose }) {
                   务必备注邮箱，核对收款人（**超）
                 </p>
                 <img
-                  src="/assets/token-image-min.jpg"
+                  src="/assets/token-image.jpg"
                   alt="Token Image"
                   style={{ width: '200px', display: 'block', margin: 'auto' }}
                 />
