@@ -7,6 +7,7 @@ const defaultRate = 6;
  * @type {Object.<string, {prompt: number, completion: number}>}
  */
 const tokenValues = {
+  'gpt-4o': { prompt: 5, completion: 15 },
   'gpt-3.5-turbo': { prompt: 0.5, completion: 1.5 },
   'gpt-4-turbo': { prompt: 10, completion: 30 },
   'gpt-4-vsion': { prompt: 10, completion: 30 },
