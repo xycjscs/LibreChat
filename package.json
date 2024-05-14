@@ -102,5 +102,8 @@
       "admin/",
       "packages/"
     ]
+  },
+  "dependencies": {
+    "sharp": "^0.32.6"
   }
 }
