@@ -151,7 +151,7 @@ export default {
   com_auth_error_login_rl: '尝试登录次数过多，请稍后再试。',
   com_auth_error_login_ban: '根据我们的服务规则，您的帐号被暂时禁用。',
   com_auth_error_login_server: '内部服务器错误，请稍后再试。',
-  com_auth_no_account: '新用户注册',
+  com_auth_no_account: '老用户重新注册 新用户注册',
   com_auth_sign_up: '注册',
   com_auth_sign_in: '登录',
   com_auth_google_login: '使用 Google 登录',
