@@ -98,7 +98,20 @@ const anthropicModels = {
   'claude-3-opus': 200000,
 };
 
+const otherModels = {
+  'deepseek-chat': 32758,
+  'deepseek-coder': 32758,
+  'yi-large': 32758,
+  'yi-medium': 16375,
+  'yi-vision': 4086,
+  'yi-medium-200k': 200000,
+  'yi-spark': 16375,
+  'yi-large-rag': 16375,
+  'yi-large-turbo': 16375,
+};
+
 const openrouterModels = {
+  'qwen/qwen-2-72b-instruct': 32758,
   'liuhaotian/llava-yi-34b': 4086,
   'qwen/qwen-72b-chat': 32758,
   'qwen/qwen-110b-chat': 32758,
@@ -249,6 +262,7 @@ const maxTokensMap = {
     ...googleModels,
     ...anthropicModels,
     ...cohereModels,
+    ...otherModels,
   },
   [EModelEndpoint.google]: googleModels,
   [EModelEndpoint.anthropic]: anthropicModels,

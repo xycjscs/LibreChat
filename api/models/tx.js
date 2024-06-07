@@ -17,7 +17,18 @@ const tokenValues = {
   'claude-2.1': { prompt: 8, completion: 24 },
   'claude-2': { prompt: 8, completion: 24 },
   'claude-': { prompt: 0.8, completion: 2.4 },
+  //other custom models
+  'deepseek-chat': { prompt: 0.1, completion: 0.2 },
+  'deepseek-coder': { prompt: 0.1, completion: 0.2 },
+  'yi-large': { prompt: 2, completion: 2 },
+  'yi-medium': { prompt: 0.25, completion: 0.25 },
+  'yi-vision': { prompt: 0.6, completion: 0.6 },
+  'yi-medium-200k': { prompt: 1.2, completion: 1.2 },
+  'yi-spark': { prompt: 0.1, completion: 0.1 },
+  'yi-large-rag': { prompt: 2.5, completion: 2.5 },
+  'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
   //openrouter models
+  'qwen/qwen-2-72b-instruct': { prompt: 0.9, completion: 0.9 },
   'liuhaotian/llava-yi-34b': { prompt: 0.9, completion: 0.9 },
   'qwen/qwen-72b-chat': { prompt: 0.9, completion: 0.9 },
   'qwen/qwen-110b-chat': { prompt: 1.62, completion: 1.62 },
