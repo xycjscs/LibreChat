@@ -177,6 +177,9 @@ const registerUser = async (user) => {
       password: bcrypt.hashSync(password, salt),
     };
 
+    const emailEnabled = checkEmailConfig();
+    newUserId = await createUser(newUserData, false);
+
     // Grant 100,000 tokens to the new user
     await Transaction.create({
       user: newUserId,
@@ -185,8 +188,6 @@ const registerUser = async (user) => {
       rawAmount: 100000,
     });
 
-    const emailEnabled = checkEmailConfig();
-    newUserId = await createUser(newUserData, false);
     if (emailEnabled) {
       await sendVerificationEmail({
         _id: newUserId,
