@@ -1,3 +1,5 @@
+const { Transaction } = require('~/models/Transaction');
+
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const { errorsToString } = require('librechat-data-provider');
@@ -174,6 +176,14 @@ const registerUser = async (user) => {
       role: isFirstRegisteredUser ? 'ADMIN' : 'USER',
       password: bcrypt.hashSync(password, salt),
     };
+
+    // Grant 100,000 tokens to the new user
+    await Transaction.create({
+      user: newUserId,
+      tokenType: 'credits',
+      context: 'admin',
+      rawAmount: 100000,
+    });
 
     const emailEnabled = checkEmailConfig();
     newUserId = await createUser(newUserData, false);
