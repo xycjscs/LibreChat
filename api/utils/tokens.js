@@ -111,6 +111,7 @@ const otherModels = {
 };
 
 const openrouterModels = {
+  'anthropic/claude-3.5-sonnet:beta': 199990,
   'qwen/qwen-2-72b-instruct': 32758,
   'liuhaotian/llava-yi-34b': 4086,
   'qwen/qwen-72b-chat': 32758,

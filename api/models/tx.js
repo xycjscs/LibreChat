@@ -28,6 +28,7 @@ const tokenValues = {
   'yi-large-rag': { prompt: 2.5, completion: 2.5 },
   'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
   //openrouter models
+  'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
   'qwen/qwen-2-72b-instruct': { prompt: 0.9, completion: 0.9 },
   'liuhaotian/llava-yi-34b': { prompt: 0.9, completion: 0.9 },
   'qwen/qwen-72b-chat': { prompt: 0.9, completion: 0.9 },
