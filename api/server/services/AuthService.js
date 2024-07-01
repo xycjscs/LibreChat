@@ -183,6 +183,14 @@ const registerUser = async (user, additionalData = {}) => {
     const newUser = await createUser(newUserData, false, true);
     newUserId = newUser._id;
 
+    // Grant 100,000 tokens to the new user
+    await Transaction.create({
+      user: newUserId,
+      tokenType: 'credits',
+      context: 'admin',
+      rawAmount: 100000,
+    });
+
     if (emailEnabled && !newUser.emailVerified) {
       await sendVerificationEmail({
         _id: newUserId,
@@ -191,13 +199,6 @@ const registerUser = async (user, additionalData = {}) => {
       });
     } else {
       await updateUser(newUserId, { emailVerified: true });
-      // Grant 100,000 tokens to the new user
-      await Transaction.create({
-        user: newUserId,
-        tokenType: 'credits',
-        context: 'admin',
-        rawAmount: 100000,
-      });
     }
 
     return { status: 200, message: genericVerificationMessage };
