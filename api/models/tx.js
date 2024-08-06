@@ -8,6 +8,7 @@ const defaultRate = 6;
  */
 const tokenValues = {
   'gpt-4o': { prompt: 5, completion: 15 },
+  'gpt-4o-mini': { prompt: 0.15, completion: 0.6 },
   'gpt-3.5-turbo': { prompt: 0.5, completion: 1.5 },
   'gpt-4-turbo': { prompt: 10, completion: 30 },
   'gpt-4-vsion': { prompt: 10, completion: 30 },
