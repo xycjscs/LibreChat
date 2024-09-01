@@ -67,6 +67,20 @@ const tokenValues = Object.assign(
     command: { prompt: 0.38, completion: 0.38 },
     'gemini-1.5': { prompt: 7, completion: 21 }, // May 2nd, 2024 pricing
     gemini: { prompt: 0.5, completion: 1.5 }, // May 2nd, 2024 pricing
+    //other custom models
+    'deepseek-chat': { prompt: 0.1, completion: 0.2 },
+    'deepseek-coder': { prompt: 0.1, completion: 0.2 },
+    'yi-large': { prompt: 2, completion: 2 },
+    'yi-medium': { prompt: 0.25, completion: 0.25 },
+    'yi-vision': { prompt: 0.6, completion: 0.6 },
+    'yi-medium-200k': { prompt: 1.2, completion: 1.2 },
+    'yi-spark': { prompt: 0.1, completion: 0.1 },
+    'yi-large-rag': { prompt: 2.5, completion: 2.5 },
+    'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
+    //miml models
+    'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
+    'anthropic/claude-3-opus:beta': { prompt: 15.0, completion: 75.0 },
+    'google/gemini-pro-1.5': { prompt: 2.5, completion: 7.5 },
   },
   bedrockValues,
 );

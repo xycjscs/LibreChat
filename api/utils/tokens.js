@@ -63,7 +63,30 @@ const anthropicModels = {
   'claude-3.5-sonnet': 200000,
 };
 
-const aggregateModels = { ...openAIModels, ...googleModels, ...anthropicModels, ...cohereModels };
+const otherModels = {
+  //other
+  'deepseek-chat': 32758,
+  'deepseek-coder': 32758,
+  'yi-large': 32758,
+  'yi-medium': 16375,
+  'yi-vision': 4086,
+  'yi-medium-200k': 200000,
+  'yi-spark': 16375,
+  'yi-large-rag': 16375,
+  'yi-large-turbo': 16375,
+  //miml
+  'anthropic/claude-3.5-sonnet:beta': 199990,
+  'anthropic/claude-3-opus:beta': 199990,
+  'google/gemini-pro-1.5': 2790000,
+};
+
+const aggregateModels = {
+  ...openAIModels,
+  ...googleModels,
+  ...anthropicModels,
+  ...cohereModels,
+  ...otherModels,
+};
 
 const maxTokensMap = {
   [EModelEndpoint.azureOpenAI]: openAIModels,
