@@ -16,6 +16,7 @@ const { registerSchema } = require('~/strategies/validators');
 const { hashToken } = require('~/server/utils/crypto');
 const isDomainAllowed = require('./isDomainAllowed');
 const { logger } = require('~/config');
+const { Transaction } = require('~/models/Transaction');
 
 const domains = {
   client: process.env.DOMAIN_CLIENT,
@@ -190,6 +191,15 @@ const registerUser = async (user, additionalData = {}) => {
     const emailEnabled = checkEmailConfig();
     const newUser = await createUser(newUserData, false, true);
     newUserId = newUser._id;
+
+    // Grant 300,000 tokens to the new user
+    await Transaction.create({
+      user: newUserId,
+      tokenType: 'credits',
+      context: 'admin',
+      rawAmount: 300000,
+    });
+
     if (emailEnabled && !newUser.emailVerified) {
       await sendVerificationEmail({
         _id: newUserId,
