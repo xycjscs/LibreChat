@@ -8,6 +8,7 @@ import type {
   TConversation,
   EModelEndpoint,
   TConversationTag,
+  TBanner,
 } from './schemas';
 import type { TSpecsConfig } from './models';
 export type TOpenAIMessage = OpenAI.Chat.ChatCompletionMessageParam;
@@ -92,7 +93,7 @@ export type TCategory = {
 
 export type TError = {
   message: string;
-  code?: number;
+  code?: number | string;
   response?: {
     data?: {
       message?: string;
@@ -125,6 +126,13 @@ export type TUpdateMessageRequest = {
   conversationId: string;
   messageId: string;
   model: string;
+  text: string;
+};
+
+export type TUpdateMessageContent = {
+  conversationId: string;
+  messageId: string;
+  index: number;
   text: string;
 };
 
@@ -221,6 +229,7 @@ export type TConfig = {
   type?: EModelEndpoint;
   azure?: boolean;
   availableTools?: [];
+  availableRegions?: string[];
   plugins?: Record<string, string>;
   name?: string;
   iconURL?: string;
@@ -309,6 +318,9 @@ export type TInterfaceConfig = {
   parameters: boolean;
   sidePanel: boolean;
   presets: boolean;
+  multiConvo: boolean;
+  bookmarks: boolean;
+  prompts: boolean;
 };
 
 export type TStartupConfig = {
@@ -507,3 +519,5 @@ export type TUserTermsResponse = {
 export type TAcceptTermsResponse = {
   success: boolean;
 };
+
+export type TBannerResponse = TBanner | null;

@@ -1,5 +1,5 @@
 const { nanoid } = require('nanoid');
-const { FileContext } = require('librechat-data-provider');
+const { FileContext, Constants, Tools, SystemRoles } = require('librechat-data-provider');
 const {
   getAgent,
   createAgent,
@@ -9,8 +9,15 @@ const {
 } = require('~/models/Agent');
 const { getStrategyFunctions } = require('~/server/services/Files/strategies');
 const { uploadImageBuffer } = require('~/server/services/Files/process');
+const { getProjectByName } = require('~/models/Project');
+const { updateAgentProjects } = require('~/models/Agent');
 const { deleteFileByFilter } = require('~/models/File');
 const { logger } = require('~/config');
+
+const systemTools = {
+  [Tools.execute_code]: true,
+  [Tools.file_search]: true,
+};
 
 /**
  * Creates an Agent.
@@ -25,9 +32,17 @@ const createAgentHandler = async (req, res) => {
     const { tools = [], provider, name, description, instructions, model, ...agentData } = req.body;
     const { id: userId } = req.user;
 
-    agentData.tools = tools
-      .map((tool) => (typeof tool === 'string' ? req.app.locals.availableTools[tool] : tool))
-      .filter(Boolean);
+    agentData.tools = [];
+
+    for (const tool of tools) {
+      if (req.app.locals.availableTools[tool]) {
+        agentData.tools.push(tool);
+      }
+
+      if (systemTools[tool]) {
+        agentData.tools.push(tool);
+      }
+    }
 
     Object.assign(agentData, {
       author: userId,
@@ -53,16 +68,49 @@ const createAgentHandler = async (req, res) => {
  * @param {object} req - Express Request
  * @param {object} req.params - Request params
  * @param {string} req.params.id - Agent identifier.
- * @returns {Agent} 200 - success response - application/json
+ * @param {object} req.user - Authenticated user information
+ * @param {string} req.user.id - User ID
+ * @returns {Promise<Agent>} 200 - success response - application/json
  * @returns {Error} 404 - Agent not found
  */
 const getAgentHandler = async (req, res) => {
   try {
     const id = req.params.id;
-    const agent = await getAgent({ id });
+    const author = req.user.id;
+
+    let query = { id, author };
+
+    const globalProject = await getProjectByName(Constants.GLOBAL_PROJECT_NAME, ['agentIds']);
+    if (globalProject && (globalProject.agentIds?.length ?? 0) > 0) {
+      query = {
+        $or: [{ id, $in: globalProject.agentIds }, query],
+      };
+    }
+
+    const agent = await getAgent(query);
+
     if (!agent) {
       return res.status(404).json({ error: 'Agent not found' });
     }
+
+    agent.author = agent.author.toString();
+    agent.isCollaborative = !!agent.isCollaborative;
+
+    if (agent.author !== author) {
+      delete agent.author;
+    }
+
+    if (!agent.isCollaborative && agent.author !== author && req.user.role !== SystemRoles.ADMIN) {
+      return res.status(200).json({
+        id: agent.id,
+        name: agent.name,
+        avatar: agent.avatar,
+        author: agent.author,
+        projectIds: agent.projectIds,
+        isCollaborative: agent.isCollaborative,
+      });
+    }
+
     return res.status(200).json(agent);
   } catch (error) {
     logger.error('[/Agents/:id] Error retrieving agent', error);
@@ -82,7 +130,34 @@ const getAgentHandler = async (req, res) => {
 const updateAgentHandler = async (req, res) => {
   try {
     const id = req.params.id;
-    const updatedAgent = await updateAgent({ id, author: req.user.id }, req.body);
+    const { projectIds, removeProjectIds, ...updateData } = req.body;
+
+    let updatedAgent;
+    const query = { id, author: req.user.id };
+    if (req.user.role === SystemRoles.ADMIN) {
+      delete query.author;
+    }
+    if (Object.keys(updateData).length > 0) {
+      updatedAgent = await updateAgent(query, updateData);
+    }
+
+    if (projectIds || removeProjectIds) {
+      updatedAgent = await updateAgentProjects({
+        user: req.user,
+        agentId: id,
+        projectIds,
+        removeProjectIds,
+      });
+    }
+
+    if (updatedAgent.author) {
+      updatedAgent.author = updatedAgent.author.toString();
+    }
+
+    if (updatedAgent.author !== req.user.id) {
+      delete updatedAgent.author;
+    }
+
     return res.json(updatedAgent);
   } catch (error) {
     logger.error('[/Agents/:id] Error updating Agent', error);
@@ -119,13 +194,13 @@ const deleteAgentHandler = async (req, res) => {
  * @param {object} req - Express Request
  * @param {object} req.query - Request query
  * @param {string} [req.query.user] - The user ID of the agent's author.
- * @returns {AgentListResponse} 200 - success response - application/json
+ * @returns {Promise<AgentListResponse>} 200 - success response - application/json
  */
 const getListAgentsHandler = async (req, res) => {
   try {
-    const { user } = req.query;
-    const filter = user ? { author: user } : {};
-    const data = await getListAgents(filter);
+    const data = await getListAgents({
+      author: req.user.id,
+    });
     return res.json(data);
   } catch (error) {
     logger.error('[/Agents] Error listing Agents', error);
@@ -151,8 +226,6 @@ const uploadAgentAvatarHandler = async (req, res) => {
       return res.status(400).json({ message: 'Agent ID is required' });
     }
 
-    let { avatar: _avatar = '{}' } = req.body;
-
     const image = await uploadImageBuffer({
       req,
       context: FileContext.avatar,
@@ -161,10 +234,12 @@ const uploadAgentAvatarHandler = async (req, res) => {
       },
     });
 
+    let _avatar;
     try {
-      _avatar = JSON.parse(_avatar);
+      const agent = await getAgent({ id: agent_id });
+      _avatar = agent.avatar;
     } catch (error) {
-      logger.error('[/avatar/:agent_id] Error parsing avatar', error);
+      logger.error('[/avatar/:agent_id] Error fetching agent', error);
       _avatar = {};
     }
 
@@ -172,7 +247,7 @@ const uploadAgentAvatarHandler = async (req, res) => {
       const { deleteFile } = getStrategyFunctions(_avatar.source);
       try {
         await deleteFile(req, { filepath: _avatar.filepath });
-        await deleteFileByFilter({ filepath: _avatar.filepath });
+        await deleteFileByFilter({ user: req.user.id, filepath: _avatar.filepath });
       } catch (error) {
         logger.error('[/avatar/:agent_id] Error deleting old avatar', error);
       }

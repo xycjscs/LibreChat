@@ -69,6 +69,8 @@ module.exports = {
     'no-nested-ternary': 'error',
     'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
     quotes: ['error', 'single'],
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
   },
   overrides: [
     {
@@ -77,6 +79,8 @@ module.exports = {
         'no-unused-vars': 'off', // off because it conflicts with '@typescript-eslint/no-unused-vars'
         'react/display-name': 'off',
         '@typescript-eslint/no-unused-vars': 'warn',
+        'jsx-a11y/click-events-have-key-events': 'off',
+        'jsx-a11y/no-static-element-interactions': 'off',
       },
     },
     {
@@ -122,6 +126,8 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'error',
         '@typescript-eslint/no-unnecessary-condition': 'warn',
         '@typescript-eslint/strict-boolean-expressions': 'warn',
+        'jsx-a11y/click-events-have-key-events': 'off',
+        'jsx-a11y/no-static-element-interactions': 'off',
       },
     },
     {
@@ -152,11 +158,10 @@ module.exports = {
   ],
   settings: {
     react: {
-      createClass: 'createReactClass', // Regex for Component Factory to use,
-      // default to "createReactClass"
-      pragma: 'React', // Pragma to use, default to "React"
-      fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
-      version: 'detect', // React version. "detect" automatically picks the version you have installed.
+      createClass: 'createReactClass',
+      pragma: 'React',
+      fragment: 'Fragment',
+      version: 'detect',
     },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],

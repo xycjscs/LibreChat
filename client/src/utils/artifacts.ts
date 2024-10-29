@@ -1,10 +1,9 @@
 import dedent from 'dedent';
-import { ArtifactModes } from 'librechat-data-provider';
+import { ArtifactModes, shadcnComponents } from 'librechat-data-provider';
 import type {
   SandpackProviderProps,
   SandpackPredefinedTemplate,
 } from '@codesandbox/sandpack-react';
-import * as shadcnComponents from '~/utils/shadcn';
 
 export const getArtifactsMode = ({
   codeArtifacts,
@@ -126,6 +125,7 @@ const standardDependencies = {
   '@radix-ui/react-toggle-group': '^1.1.0',
   'embla-carousel-react': '^8.2.0',
   'react-day-picker': '^9.0.8',
+  'dat.gui': '^0.7.9',
   vaul: '^0.9.1',
 };
 

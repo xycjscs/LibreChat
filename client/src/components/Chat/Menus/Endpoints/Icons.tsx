@@ -1,6 +1,6 @@
 import { EModelEndpoint } from 'librechat-data-provider';
 import type { IconMapProps, AgentIconMapProps } from '~/common';
-import { BrainCircuit } from 'lucide-react';
+import { Feather } from 'lucide-react';
 import {
   MinimalPlugin,
   GPTIcon,
@@ -11,12 +11,19 @@ import {
   CustomMinimalIcon,
   AssistantIcon,
   LightningIcon,
+  BedrockIcon,
   Sparkles,
 } from '~/components/svg';
 import UnknownIcon from './UnknownIcon';
 import { cn } from '~/utils';
 
-const AssistantAvatar = ({ className = '', assistantName, avatar, size }: IconMapProps) => {
+const AssistantAvatar = ({
+  className = '',
+  assistantName = '',
+  avatar = '',
+  context,
+  size,
+}: IconMapProps) => {
   if (assistantName && avatar) {
     return (
       <img
@@ -31,10 +38,10 @@ const AssistantAvatar = ({ className = '', assistantName, avatar, size }: IconMa
     return <AssistantIcon className={cn('text-token-secondary', className)} size={size} />;
   }
 
-  return <Sparkles className={cn(assistantName === '' ? 'icon-2xl' : '', className)} />;
+  return <Sparkles className={cn(context === 'landing' ? 'icon-2xl' : '', className)} />;
 };
 
-const AgentAvatar = ({ className = '', agentName, avatar, size }: AgentIconMapProps) => {
+const AgentAvatar = ({ className = '', avatar = '', agentName, size }: AgentIconMapProps) => {
   if (agentName && avatar) {
     return (
       <img
@@ -45,11 +52,13 @@ const AgentAvatar = ({ className = '', agentName, avatar, size }: AgentIconMapPr
         height="80"
       />
     );
-  } else if (agentName) {
-    return <AssistantIcon className={cn('text-token-secondary', className)} size={size} />;
   }
 
-  return <BrainCircuit className={cn(agentName === '' ? 'icon-2xl' : '', className)} />;
+  return <Feather className={cn(agentName === '' ? 'icon-2xl' : '', className)} size={size} />;
+};
+
+const Bedrock = ({ className = '' }: IconMapProps) => {
+  return <BedrockIcon className={cn(className, 'h-full w-full')} />;
 };
 
 export const icons = {
@@ -64,5 +73,6 @@ export const icons = {
   [EModelEndpoint.assistants]: AssistantAvatar,
   [EModelEndpoint.azureAssistants]: AssistantAvatar,
   [EModelEndpoint.agents]: AgentAvatar,
+  [EModelEndpoint.bedrock]: Bedrock,
   unknown: UnknownIcon,
 };

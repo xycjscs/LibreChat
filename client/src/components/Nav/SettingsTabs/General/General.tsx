@@ -1,15 +1,12 @@
 import { useRecoilState } from 'recoil';
-import * as Tabs from '@radix-ui/react-tabs';
 import Cookies from 'js-cookie';
-import { SettingsTabValues } from 'librechat-data-provider';
-import React, { useContext, useCallback, useRef } from 'react';
-import type { TDangerButtonProps } from '~/common';
-import { ThemeContext, useLocalize } from '~/hooks';
+import React, { useContext, useCallback } from 'react';
+import UserMsgMarkdownSwitch from './UserMsgMarkdownSwitch';
 import HideSidePanelSwitch from './HideSidePanelSwitch';
+import { ThemeContext, useLocalize } from '~/hooks';
 import AutoScrollSwitch from './AutoScrollSwitch';
 import ArchivedChats from './ArchivedChats';
 import { Dropdown } from '~/components/ui';
-import DangerButton from '../DangerButton';
 import store from '~/store';
 
 export const ThemeSelector = ({
@@ -35,39 +32,10 @@ export const ThemeSelector = ({
         value={theme}
         onChange={onChange}
         options={themeOptions}
-        sizeClasses="w-[220px]"
-        anchor="bottom start"
+        sizeClasses="w-[180px]"
         testId="theme-selector"
       />
     </div>
-  );
-};
-
-export const ClearChatsButton = ({
-  confirmClear,
-  className = '',
-  showText = true,
-  mutation,
-  onClick,
-}: Pick<
-  TDangerButtonProps,
-  'confirmClear' | 'mutation' | 'className' | 'showText' | 'onClick'
->) => {
-  return (
-    <DangerButton
-      id="clearConvosBtn"
-      mutation={mutation}
-      confirmClear={confirmClear}
-      className={className}
-      showText={showText}
-      infoTextCode="com_nav_clear_all_chats"
-      actionTextCode="com_ui_clear"
-      confirmActionTextCode="com_nav_confirm_clear"
-      dataTestIdInitial="clear-convos-initial"
-      dataTestIdConfirm="clear-convos-confirm"
-      infoDescriptionCode="com_nav_info_clear_all_chats"
-      onClick={onClick}
-    />
   );
 };
 
@@ -80,7 +48,6 @@ export const LangSelector = ({
 }) => {
   const localize = useLocalize();
 
-  // Create an array of options for the Dropdown
   const languageOptions = [
     { value: 'auto', label: localize('com_nav_lang_auto') },
     { value: 'en-US', label: localize('com_nav_lang_english') },
@@ -113,7 +80,6 @@ export const LangSelector = ({
         value={langcode}
         onChange={onChange}
         sizeClasses="[--anchor-max-height:256px]"
-        anchor="bottom start"
         options={languageOptions}
       />
     </div>
@@ -124,8 +90,6 @@ function General() {
   const { theme, setTheme } = useContext(ThemeContext);
 
   const [langcode, setLangcode] = useRecoilState(store.lang);
-
-  const contentRef = useRef(null);
 
   const changeTheme = useCallback(
     (value: string) => {
@@ -151,32 +115,26 @@ function General() {
   );
 
   return (
-    <Tabs.Content
-      value={SettingsTabValues.GENERAL}
-      role="tabpanel"
-      className="w-full md:min-h-[271px]"
-      ref={contentRef}
-    >
-      <div className="flex flex-col gap-3 text-sm text-text-primary">
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-          <ThemeSelector theme={theme} onChange={changeTheme} />
-        </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-          <LangSelector langcode={langcode} onChange={changeLang} />
-        </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-          <AutoScrollSwitch />
-        </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-          <HideSidePanelSwitch />
-        </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-          <ArchivedChats />
-        </div>
-        {/* <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
-        </div> */}
+    <div className="flex flex-col gap-3 p-1 text-sm text-text-primary">
+      <div className="pb-3">
+        <ThemeSelector theme={theme} onChange={changeTheme} />
       </div>
-    </Tabs.Content>
+      <div className="pb-3">
+        <LangSelector langcode={langcode} onChange={changeLang} />
+      </div>
+      <div className="pb-3">
+        <UserMsgMarkdownSwitch />
+      </div>
+      <div className="pb-3">
+        <AutoScrollSwitch />
+      </div>
+      <div className="pb-3">
+        <HideSidePanelSwitch />
+      </div>
+      <div className="pb-3">
+        <ArchivedChats />
+      </div>
+    </div>
   );
 }
 

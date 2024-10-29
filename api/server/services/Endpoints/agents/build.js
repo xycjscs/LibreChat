@@ -1,13 +1,12 @@
-const { getAgent } = require('~/models/Agent');
+const { loadAgent } = require('~/models/Agent');
 const { logger } = require('~/config');
 
 const buildOptions = (req, endpoint, parsedBody) => {
-  const { agent_id, instructions, spec, ...rest } = parsedBody;
+  const { agent_id, instructions, spec, ...model_parameters } = parsedBody;
 
-  const agentPromise = getAgent({
-    id: agent_id,
-    // TODO: better author handling
-    author: req.user.id,
+  const agentPromise = loadAgent({
+    req,
+    agent_id,
   }).catch((error) => {
     logger.error(`[/agents/:${agent_id}] Error retrieving agent during build options step`, error);
     return undefined;
@@ -19,9 +18,7 @@ const buildOptions = (req, endpoint, parsedBody) => {
     agent_id,
     instructions,
     spec,
-    modelOptions: {
-      ...rest,
-    },
+    model_parameters,
   };
 
   return endpointOption;

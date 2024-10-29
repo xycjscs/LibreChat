@@ -7,9 +7,14 @@
 // validateVisionModel,
 // mapModelToAzureConfig,
 // } = require('librechat-data-provider');
-const { Callback } = require('@librechat/agents');
+const { Callback, createMetadataAggregator } = require('@librechat/agents');
 const {
+  Constants,
+  VisionModes,
+  openAISchema,
   EModelEndpoint,
+  anthropicSchema,
+  bedrockOutputParser,
   providerEndpointMap,
   removeNullishValues,
 } = require('librechat-data-provider');
@@ -23,15 +28,26 @@ const {
   formatAgentMessages,
   createContextHandlers,
 } = require('~/app/clients/prompts');
+const { encodeAndFormat } = require('~/server/services/Files/images/encode');
 const Tokenizer = require('~/server/services/Tokenizer');
+const { spendTokens } = require('~/models/spendTokens');
 const BaseClient = require('~/app/clients/BaseClient');
 // const { sleep } = require('~/server/utils');
 const { createRun } = require('./run');
 const { logger } = require('~/config');
 
+/** @typedef {import('@librechat/agents').MessageContentComplex} MessageContentComplex */
+
+const providerParsers = {
+  [EModelEndpoint.openAI]: openAISchema,
+  [EModelEndpoint.azureOpenAI]: openAISchema,
+  [EModelEndpoint.anthropic]: anthropicSchema,
+  [EModelEndpoint.bedrock]: bedrockOutputParser,
+};
+
 class AgentClient extends BaseClient {
   constructor(options = {}) {
-    super(options);
+    super(null, options);
 
     /** @type {'discard' | 'summarize'} */
     this.contextStrategy = 'discard';
@@ -39,11 +55,34 @@ class AgentClient extends BaseClient {
     /** @deprecated @type {true} - Is a Chat Completion Request */
     this.isChatCompletion = true;
 
-    const { maxContextTokens, modelOptions = {}, ...clientOptions } = options;
+    /** @type {AgentRun} */
+    this.run;
+
+    const {
+      contentParts,
+      collectedUsage,
+      artifactPromises,
+      maxContextTokens,
+      modelOptions = {},
+      ...clientOptions
+    } = options;
 
     this.modelOptions = modelOptions;
     this.maxContextTokens = maxContextTokens;
-    this.options = Object.assign({ endpoint: EModelEndpoint.agents }, clientOptions);
+    /** @type {MessageContentComplex[]} */
+    this.contentParts = contentParts;
+    /** @type {Array<UsageMetadata>} */
+    this.collectedUsage = collectedUsage;
+    /** @type {ArtifactPromises} */
+    this.artifactPromises = artifactPromises;
+    this.options = Object.assign({ endpoint: options.endpoint }, clientOptions);
+  }
+
+  /**
+   * Returns the aggregated content parts for the current run.
+   * @returns {MessageContentComplex[]} */
+  getContentParts() {
+    return this.contentParts;
   }
 
   setOptions(options) {
@@ -112,9 +151,27 @@ class AgentClient extends BaseClient {
   }
 
   getSaveOptions() {
+    const parseOptions = providerParsers[this.options.endpoint];
+    let runOptions =
+      this.options.endpoint === EModelEndpoint.agents
+        ? {
+          model: undefined,
+          // TODO:
+          // would need to be override settings; otherwise, model needs to be undefined
+          // model: this.override.model,
+          // instructions: this.override.instructions,
+          // additional_instructions: this.override.additional_instructions,
+        }
+        : {};
+
+    if (parseOptions) {
+      runOptions = parseOptions(this.modelOptions);
+    }
+
     return removeNullishValues(
       Object.assign(
         {
+          endpoint: this.options.endpoint,
           agent_id: this.options.agent.id,
           modelLabel: this.options.modelLabel,
           maxContextTokens: this.options.maxContextTokens,
@@ -122,24 +179,28 @@ class AgentClient extends BaseClient {
           imageDetail: this.options.imageDetail,
           spec: this.options.spec,
         },
-        this.modelOptions,
-        {
-          model: undefined,
-          // TODO:
-          // would need to be override settings; otherwise, model needs to be undefined
-          // model: this.override.model,
-          // instructions: this.override.instructions,
-          // additional_instructions: this.override.additional_instructions,
-        },
+        // TODO: PARSE OPTIONS BY PROVIDER, MAY CONTAIN SENSITIVE DATA
+        runOptions,
       ),
     );
   }
 
-  getBuildMessagesOptions(opts) {
+  getBuildMessagesOptions() {
     return {
-      instructions: opts.instructions,
-      additional_instructions: opts.additional_instructions,
+      instructions: this.options.agent.instructions,
+      additional_instructions: this.options.agent.additional_instructions,
     };
+  }
+
+  async addImageURLs(message, attachments) {
+    const { files, image_urls } = await encodeAndFormat(
+      this.options.req,
+      attachments,
+      this.options.agent.provider,
+      VisionModes.agents,
+    );
+    message.image_urls = image_urls.length ? image_urls : undefined;
+    return files;
   }
 
   async buildMessages(
@@ -155,8 +216,6 @@ class AgentClient extends BaseClient {
     });
 
     let payload;
-    /** @type {{ role: string; name: string; content: string } | undefined} */
-    let systemMessage;
     /** @type {number | undefined} */
     let promptTokens;
 
@@ -204,21 +263,21 @@ class AgentClient extends BaseClient {
       }
 
       /* If message has files, calculate image token cost */
-      // if (this.message_file_map && this.message_file_map[message.messageId]) {
-      //   const attachments = this.message_file_map[message.messageId];
-      //   for (const file of attachments) {
-      //     if (file.embedded) {
-      //       this.contextHandlers?.processFile(file);
-      //       continue;
-      //     }
+      if (this.message_file_map && this.message_file_map[message.messageId]) {
+        const attachments = this.message_file_map[message.messageId];
+        for (const file of attachments) {
+          if (file.embedded) {
+            this.contextHandlers?.processFile(file);
+            continue;
+          }
 
-      //     orderedMessages[i].tokenCount += this.calculateImageTokenCost({
-      //       width: file.width,
-      //       height: file.height,
-      //       detail: this.options.imageDetail ?? ImageDetail.auto,
-      //     });
-      //   }
-      // }
+          // orderedMessages[i].tokenCount += this.calculateImageTokenCost({
+          //   width: file.width,
+          //   height: file.height,
+          //   detail: this.options.imageDetail ?? ImageDetail.auto,
+          // });
+        }
+      }
 
       return formattedMessage;
     });
@@ -229,20 +288,7 @@ class AgentClient extends BaseClient {
     }
 
     if (systemContent) {
-      systemContent = `${systemContent.trim()}`;
-      systemMessage = {
-        role: 'system',
-        name: 'instructions',
-        content: systemContent,
-      };
-
-      if (this.contextStrategy) {
-        const instructionTokens = this.getTokenCountForMessage(systemMessage);
-        if (instructionTokens >= 0) {
-          const firstMessageTokens = orderedMessages[0].tokenCount ?? 0;
-          orderedMessages[0].tokenCount = firstMessageTokens + instructionTokens;
-        }
-      }
+      this.options.agent.instructions = systemContent;
     }
 
     if (this.contextStrategy) {
@@ -270,25 +316,34 @@ class AgentClient extends BaseClient {
   /** @type {sendCompletion} */
   async sendCompletion(payload, opts = {}) {
     this.modelOptions.user = this.user;
-    return await this.chatCompletion({
+    await this.chatCompletion({
       payload,
       onProgress: opts.onProgress,
       abortController: opts.abortController,
     });
+    return this.contentParts;
   }
 
-  // async recordTokenUsage({ promptTokens, completionTokens, context = 'message' }) {
-  //   await spendTokens(
-  //     {
-  //       context,
-  //       model: this.modelOptions.model,
-  //       conversationId: this.conversationId,
-  //       user: this.user ?? this.options.req.user?.id,
-  //       endpointTokenConfig: this.options.endpointTokenConfig,
-  //     },
-  //     { promptTokens, completionTokens },
-  //   );
-  // }
+  /**
+   * @param {Object} params
+   * @param {string} [params.model]
+   * @param {string} [params.context='message']
+   * @param {UsageMetadata[]} [params.collectedUsage=this.collectedUsage]
+   */
+  async recordCollectedUsage({ model, context = 'message', collectedUsage = this.collectedUsage }) {
+    for (const usage of collectedUsage) {
+      await spendTokens(
+        {
+          context,
+          model: model ?? this.modelOptions.model,
+          conversationId: this.conversationId,
+          user: this.user ?? this.options.req.user?.id,
+          endpointTokenConfig: this.options.endpointTokenConfig,
+        },
+        { promptTokens: usage.input_tokens, completionTokens: usage.output_tokens },
+      );
+    }
+  }
 
   async chatCompletion({ payload, abortController = null }) {
     try {
@@ -398,9 +453,8 @@ class AgentClient extends BaseClient {
       //   });
       // }
 
-      // const streamRate = this.options.streamRate ?? Constants.DEFAULT_STREAM_RATE;
-
       const run = await createRun({
+        req: this.options.req,
         agent: this.options.agent,
         tools: this.options.tools,
         toolMap: this.options.toolMap,
@@ -414,7 +468,7 @@ class AgentClient extends BaseClient {
           provider: providerEndpointMap[this.options.agent.provider],
           thread_id: this.conversationId,
         },
-        run_id: this.responseMessageId,
+        signal: abortController.signal,
         streamMode: 'values',
         version: 'v2',
       };
@@ -423,8 +477,10 @@ class AgentClient extends BaseClient {
         throw new Error('Failed to create run');
       }
 
+      this.run = run;
+
       const messages = formatAgentMessages(payload);
-      const runMessages = await run.processStream({ messages }, config, {
+      await run.processStream({ messages }, config, {
         [Callback.TOOL_ERROR]: (graph, error, toolId) => {
           logger.error(
             '[api/server/controllers/agents/client.js #chatCompletion] Tool Error',
@@ -433,14 +489,94 @@ class AgentClient extends BaseClient {
           );
         },
       });
-      // console.dir(runMessages, { depth: null });
-      return runMessages;
+      this.recordCollectedUsage({ context: 'message' }).catch((err) => {
+        logger.error(
+          '[api/server/controllers/agents/client.js #chatCompletion] Error recording collected usage',
+          err,
+        );
+      });
     } catch (err) {
-      logger.error(
-        '[api/server/controllers/agents/client.js #chatCompletion] Unhandled error type',
+      if (!abortController.signal.aborted) {
+        logger.error(
+          '[api/server/controllers/agents/client.js #sendCompletion] Unhandled error type',
+          err,
+        );
+        throw err;
+      }
+
+      logger.warn(
+        '[api/server/controllers/agents/client.js #sendCompletion] Operation aborted',
         err,
       );
-      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param {Object} params
+   * @param {string} params.text
+   * @param {string} params.conversationId
+   */
+  async titleConvo({ text }) {
+    if (!this.run) {
+      throw new Error('Run not initialized');
+    }
+    const { handleLLMEnd, collected: collectedMetadata } = createMetadataAggregator();
+    const clientOptions = {};
+    const providerConfig = this.options.req.app.locals[this.options.agent.provider];
+    if (
+      providerConfig &&
+      providerConfig.titleModel &&
+      providerConfig.titleModel !== Constants.CURRENT_MODEL
+    ) {
+      clientOptions.model = providerConfig.titleModel;
+    }
+    try {
+      const titleResult = await this.run.generateTitle({
+        inputText: text,
+        contentParts: this.contentParts,
+        clientOptions,
+        chainOptions: {
+          callbacks: [
+            {
+              handleLLMEnd,
+            },
+          ],
+        },
+      });
+
+      const collectedUsage = collectedMetadata.map((item) => {
+        let input_tokens, output_tokens;
+
+        if (item.usage) {
+          input_tokens = item.usage.input_tokens || item.usage.inputTokens;
+          output_tokens = item.usage.output_tokens || item.usage.outputTokens;
+        } else if (item.tokenUsage) {
+          input_tokens = item.tokenUsage.promptTokens;
+          output_tokens = item.tokenUsage.completionTokens;
+        }
+
+        return {
+          input_tokens: input_tokens,
+          output_tokens: output_tokens,
+        };
+      });
+
+      this.recordCollectedUsage({
+        model: clientOptions.model,
+        context: 'title',
+        collectedUsage,
+      }).catch((err) => {
+        logger.error(
+          '[api/server/controllers/agents/client.js #titleConvo] Error recording collected usage',
+          err,
+        );
+      });
+
+      return titleResult.title;
+    } catch (err) {
+      logger.error('[api/server/controllers/agents/client.js #titleConvo] Error', err);
+      return;
     }
   }
 
