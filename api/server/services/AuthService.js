@@ -192,12 +192,12 @@ const registerUser = async (user, additionalData = {}) => {
     const newUser = await createUser(newUserData, false, true);
     newUserId = newUser._id;
 
-    // Grant 300,000 tokens to the new user
+    // Grant 100,000 tokens to the new user
     await Transaction.create({
       user: newUserId,
       tokenType: 'credits',
       context: 'admin',
-      rawAmount: 300000,
+      rawAmount: 100000,
     });
 
     if (emailEnabled && !newUser.emailVerified) {

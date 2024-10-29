@@ -14,7 +14,9 @@ function TokenModal({ open, onClose }) {
         role="button" // Add a semantic role
         tabIndex="0" // Make it focusable
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {onClose();} // Handle Enter or Space key
+          if (e.key === 'Enter' || e.key === ' ') {
+            onClose();
+          } // Handle Enter or Space key
         }}
       />
 
@@ -52,8 +54,9 @@ function TokenModal({ open, onClose }) {
                 支付时请将邮箱补充到“添加备注”
               </p>
               <p className="text-sm text-gray-500">
-                微信扫码支付任意金额，100元可兑换1000万Token。
+                微信扫码支付任意金额（最低10元），10元可兑换100万Token。
               </p>
+              <p className="text-sm text-gray-500">项目需要资金进行维护和升级。感谢支持。</p>
               <img
                 src="/assets/token-image.jpg"
                 alt="QR code for WeChat payment"

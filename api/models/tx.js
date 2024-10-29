@@ -70,6 +70,7 @@ const tokenValues = Object.assign(
     //other custom models
     'deepseek-chat': { prompt: 0.1, completion: 0.2 },
     'deepseek-coder': { prompt: 0.1, completion: 0.2 },
+    'yi-lightning': { prompt: 0.1, completion: 0.1 },
     'yi-large': { prompt: 2, completion: 2 },
     'yi-medium': { prompt: 0.25, completion: 0.25 },
     'yi-vision': { prompt: 0.6, completion: 0.6 },

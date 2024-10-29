@@ -67,6 +67,7 @@ const otherModels = {
   //other
   'deepseek-chat': 32758,
   'deepseek-coder': 32758,
+  'yi-lightning': 16375,
   'yi-large': 32758,
   'yi-medium': 16375,
   'yi-vision': 4086,
