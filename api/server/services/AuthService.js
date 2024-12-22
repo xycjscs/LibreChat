@@ -16,7 +16,7 @@ const { isEmailDomainAllowed } = require('~/server/services/domains');
 const { registerSchema } = require('~/strategies/validators');
 const { hashToken } = require('~/server/utils/crypto');
 const { logger } = require('~/config');
-const { Transaction } = require('~/models/Transaction');
+// const { Transaction } = require('~/models/Transaction');
 
 const domains = {
   client: process.env.DOMAIN_CLIENT,
@@ -193,13 +193,13 @@ const registerUser = async (user, additionalData = {}) => {
     const newUser = await createUser(newUserData, disableTTL, true);
     newUserId = newUser._id;
 
-    // Grant 100,000 tokens to the new user
-    await Transaction.create({
-      user: newUserId,
-      tokenType: 'credits',
-      context: 'admin',
-      rawAmount: 100000,
-    });
+    // Grant 100,000 tokens to the new user, it is replaced by start balance env.
+    // await Transaction.create({
+    //   user: newUserId,
+    //   tokenType: 'credits',
+    //   context: 'admin',
+    //   rawAmount: 100000,
+    // });
 
     if (emailEnabled && !newUser.emailVerified) {
       await sendVerificationEmail({
