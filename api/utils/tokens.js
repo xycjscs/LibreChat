@@ -83,8 +83,8 @@ const anthropicModels = {
 
 const otherModels = {
   //other
-  'deepseek-chat': 32758,
-  'deepseek-coder': 32758,
+  'deepseek-reasoner': 65526,
+  'deepseek-chat': 65526,
   'yi-lightning': 16375,
   'yi-large': 32758,
   'yi-medium': 16375,

@@ -103,8 +103,8 @@ const tokenValues = Object.assign(
     'gemini-1.5': { prompt: 7, completion: 21 }, // May 2nd, 2024 pricing
     gemini: { prompt: 0.5, completion: 1.5 }, // May 2nd, 2024 pricing
     //other custom models
-    'deepseek-chat': { prompt: 0.1, completion: 0.2 },
-    'deepseek-coder': { prompt: 0.1, completion: 0.2 },
+    'deepseek-chat': { prompt: 0.2, completion: 0.8 },
+    'deepseek-reasoner': { prompt: 0.4, completion: 1.6 },
     'yi-lightning': { prompt: 0.1, completion: 0.1 },
     'yi-large': { prompt: 2, completion: 2 },
     'yi-medium': { prompt: 0.25, completion: 0.25 },
