@@ -172,7 +172,7 @@ const useNewConvo = (index = 0) => {
   );
 
   const newConversation = useCallback(
-    ({
+    function createNewConvo({
       template: _template = {},
       preset: _preset,
       modelsData,
@@ -186,7 +186,7 @@ const useNewConvo = (index = 0) => {
       buildDefault?: boolean;
       keepLatestMessage?: boolean;
       keepAddedConvos?: boolean;
-    } = {}) => {
+    } = {}) {
       pauseGlobalAudio();
 
       const templateConvoId = _template.conversationId ?? '';
