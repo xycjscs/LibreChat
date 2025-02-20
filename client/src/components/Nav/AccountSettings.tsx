@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import { useRecoilState } from 'recoil';
 import * as Select from '@ariakit/react/select';
 import { Fragment, useState, memo } from 'react';
@@ -98,7 +99,7 @@ function AccountSettings() {
           !isNaN(parseFloat(balanceQuery.data)) && (
           <>
             <div className="text-token-text-secondary ml-3 mr-2 py-2 text-sm" role="note">
-              {localize('com_nav_balance')}: ${parseFloat(balanceQuery.data).toFixed(2)}
+              {localize('com_nav_balance')}: {parseFloat(balanceQuery.data).toFixed(2)}
             </div>
             <DropdownMenuSeparator />
           </>
