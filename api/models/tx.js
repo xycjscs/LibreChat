@@ -107,7 +107,6 @@ const tokenValues = Object.assign(
     'gemini-2.0': { prompt: 0, completion: 0 }, // https://ai.google.dev/pricing
     //other custom models
     'deepseek-chat': { prompt: 0.2, completion: 0.8 },
-    'deepseek-reasoner': { prompt: 0.4, completion: 1.6 },
     'yi-lightning': { prompt: 0.1, completion: 0.1 },
     'yi-large': { prompt: 2, completion: 2 },
     'yi-medium': { prompt: 0.25, completion: 0.25 },
@@ -117,6 +116,9 @@ const tokenValues = Object.assign(
     'yi-large-rag': { prompt: 2.5, completion: 2.5 },
     'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
     //miml models
+    'deepseek/deepseek-r1:free': { prompt: 0, completion: 0 },
+    'deepseek/deepseek-r1': { prompt: 3, completion: 8 },
+    'perplexity/r1-1776': { prompt: 2, completion: 8 },
     'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
     'anthropic/claude-3-opus:beta': { prompt: 15.0, completion: 75.0 },
     'google/gemini-pro-1.5': { prompt: 2.5, completion: 7.5 },
