@@ -13,6 +13,7 @@ const openAIModels = {
   'gpt-4-32k-0613': 32758, // -10 from max
   'gpt-4-1106': 127500, // -500 from max
   'gpt-4-0125': 127500, // -500 from max
+  'gpt-4.5': 127500, // -500 from max
   'gpt-4o': 127500, // -500 from max
   'gpt-4o-mini': 127500, // -500 from max
   'gpt-4o-2024-05-13': 127500, // -500 from max
@@ -74,6 +75,7 @@ const anthropicModels = {
   'claude-instant': 100000,
   'claude-2': 100000,
   'claude-2.1': 200000,
+  'claude-3': 200000,
   'claude-3-haiku': 200000,
   'claude-3-sonnet': 200000,
   'claude-3-opus': 200000,
@@ -81,6 +83,8 @@ const anthropicModels = {
   'claude-3-5-haiku': 200000,
   'claude-3-5-sonnet': 200000,
   'claude-3.5-sonnet': 200000,
+  'claude-3-7-sonnet': 200000,
+  'claude-3.7-sonnet': 200000,
   'claude-3-5-sonnet-latest': 200000,
   'claude-3.5-sonnet-latest': 200000,
 };
@@ -98,9 +102,14 @@ const otherModels = {
   'yi-large-rag': 16375,
   'yi-large-turbo': 16375,
   //miml
+  'anthropic/claude-3.7-sonnet:beta': 199990,
   'anthropic/claude-3.5-sonnet:beta': 199990,
   'anthropic/claude-3-opus:beta': 199990,
   'google/gemini-pro-1.5': 2790000,
+  'google/gemini-2.0-flash-001': 990000,
+  'google/gemini-2.0-flash-lite-001': 990000,
+  'deepseek/deepseek-r1': 63000,
+  'perplexity/r1-1776': 127000,
 };
 
 const deepseekModels = {
@@ -202,7 +211,18 @@ const bedrockModels = {
   ...otherModels,
 };
 
-const aggregateModels = { ...openAIModels, ...googleModels, ...bedrockModels };
+const xAIModels = {
+  'grok-beta': 131072,
+  'grok-vision-beta': 8192,
+  'grok-2': 131072,
+  'grok-2-latest': 131072,
+  'grok-2-1212': 131072,
+  'grok-2-vision': 32768,
+  'grok-2-vision-latest': 32768,
+  'grok-2-vision-1212': 32768,
+};
+
+const aggregateModels = { ...openAIModels, ...googleModels, ...bedrockModels, ...xAIModels };
 
 const maxTokensMap = {
   [EModelEndpoint.azureOpenAI]: openAIModels,
