@@ -102,6 +102,7 @@ const otherModels = {
   'yi-large-rag': 16375,
   'yi-large-turbo': 16375,
   //miml
+  'qwen/qwq-32b': 127000,
   'anthropic/claude-3.7-sonnet:thinking': 199990,
   'anthropic/claude-3.7-sonnet:beta': 199990,
   'anthropic/claude-3.5-sonnet:beta': 199990,
