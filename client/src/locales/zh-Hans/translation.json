@@ -93,7 +93,7 @@
   "com_auth_error_login_server": "内部服务器错误，请稍后再试。",
   "com_auth_error_login_unverified": "您的账户尚未验证。请检查您的邮件以获取验证链接。",
   "com_auth_facebook_login": "使用 Facebook 登录",
-  "com_auth_full_name": "姓名",
+  "com_auth_full_name": "姓名(实名)",
   "com_auth_github_login": "使用 GitHub 登录",
   "com_auth_google_login": "使用 Google 登录",
   "com_auth_here": "这里",
