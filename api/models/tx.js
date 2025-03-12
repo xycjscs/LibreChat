@@ -119,6 +119,7 @@ const tokenValues = Object.assign(
     'yi-large-rag': { prompt: 2.5, completion: 2.5 },
     'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
     //miml models
+    'QwQ-32B': { prompt: 0, completion: 0 },
     'qwen/qwq-32b': { prompt: 0.29, completion: 0.39 },
     'anthropic/claude-3.7-sonnet:thinking': { prompt: 3.0, completion: 15.0 },
     'google/gemini-2.0-flash-001': { prompt: 0.1, completion: 0.4 },
