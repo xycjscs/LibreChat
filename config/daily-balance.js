@@ -21,8 +21,8 @@ const connect = require('./connect');
     let balance = await Balance.findOne({ user: user._id });
     if (balance !== null) {
       console.green(`User ${user.email} has a balance of ${balance.tokenCredits}`);
-      if (balance.tokenCredits < 100000) {
-        const amount = 100000 - balance.tokenCredits;
+      if (balance.tokenCredits < 200000) {
+        const amount = 200000 - balance.tokenCredits;
         try {
           await Transaction.create({
             user: user._id,
