@@ -68,6 +68,8 @@ const googleModels = {
   'gemini-pro-vision': 12288,
   'gemini-exp': 2000000,
   'gemini-2.5': 1000000, // 1M input tokens, 64k output tokens
+  'gemini-2.5-pro': 1000000,
+  'gemini-2.5-flash': 1000000,
   'gemini-2.0': 2000000,
   'gemini-2.0-flash': 1000000,
   'gemini-2.0-flash-lite': 1000000,
@@ -103,6 +105,9 @@ const anthropicModels = {
   'claude-3.7-sonnet': 200000,
   'claude-3-5-sonnet-latest': 200000,
   'claude-3.5-sonnet-latest': 200000,
+  'claude-sonnet-4': 200000,
+  'claude-opus-4': 200000,
+  'claude-4': 200000,
 };
 
 const otherModels = {
@@ -110,25 +115,18 @@ const otherModels = {
   'deepseek-reasoner': 65526,
   'deepseek-chat': 65526,
   'yi-lightning': 16375,
-  'yi-large': 32758,
-  'yi-medium': 16375,
-  'yi-vision': 4086,
-  'yi-medium-200k': 200000,
-  'yi-spark': 16375,
-  'yi-large-rag': 16375,
-  'yi-large-turbo': 16375,
+  'yi-vision-v2': 4086,
   //miml
   'QwQ-32B': 99900,
-  'qwen/qwq-32b': 127000,
   'anthropic/claude-3.7-sonnet:thinking': 199990,
   'anthropic/claude-3.7-sonnet:beta': 199990,
   'anthropic/claude-3.5-sonnet:beta': 199990,
   'anthropic/claude-3-opus:beta': 199990,
-  'google/gemini-pro-1.5': 2790000,
-  'google/gemini-2.0-flash-001': 990000,
-  'google/gemini-2.0-flash-lite-001': 990000,
-  'deepseek/deepseek-r1': 63000,
   'perplexity/r1-1776': 127000,
+  'google/gemini-2.5-pro-preview': 2790000,
+  'google/gemini-2.5-flash-preview-05-20:thinking': 2790000,
+  'anthropic/claude-sonnet-4': 199990,
+  'anthropic/claude-opus-4': 199990,
 };
 
 const deepseekModels = {
@@ -266,12 +264,17 @@ const modelMaxOutputs = {
   system_default: 1024,
 };
 
+/** Outputs from https://docs.anthropic.com/en/docs/about-claude/models/all-models#model-names */
 const anthropicMaxOutputs = {
   'claude-3-haiku': 4096,
   'claude-3-sonnet': 4096,
   'claude-3-opus': 4096,
+  'claude-opus-4': 32000,
+  'claude-sonnet-4': 64000,
   'claude-3.5-sonnet': 8192,
   'claude-3-5-sonnet': 8192,
+  'claude-3.7-sonnet': 128000,
+  'claude-3-7-sonnet': 128000,
 };
 
 const maxOutputTokensMap = {

@@ -100,6 +100,8 @@ const tokenValues = Object.assign(
     'claude-3-5-haiku': { prompt: 0.8, completion: 4 },
     'claude-3.5-haiku': { prompt: 0.8, completion: 4 },
     'claude-3-haiku': { prompt: 0.25, completion: 1.25 },
+    'claude-sonnet-4': { prompt: 3, completion: 15 },
+    'claude-opus-4': { prompt: 15, completion: 75 },
     'claude-2.1': { prompt: 8, completion: 24 },
     'claude-2': { prompt: 8, completion: 24 },
     'claude-instant': { prompt: 0.8, completion: 2.4 },
@@ -118,29 +120,9 @@ const tokenValues = Object.assign(
     'gemini-2.0-flash-lite': { prompt: 0.075, completion: 0.3 },
     'gemini-2.0-flash': { prompt: 0.1, completion: 0.4 },
     'gemini-2.0': { prompt: 0, completion: 0 }, // https://ai.google.dev/pricing
-    //other custom models
-    'deepseek-chat': { prompt: 0.2, completion: 0.8 },
-    'yi-lightning': { prompt: 0.1, completion: 0.1 },
-    'yi-large': { prompt: 2, completion: 2 },
-    'yi-medium': { prompt: 0.25, completion: 0.25 },
-    'yi-vision': { prompt: 0.6, completion: 0.6 },
-    'yi-medium-200k': { prompt: 1.2, completion: 1.2 },
-    'yi-spark': { prompt: 0.1, completion: 0.1 },
-    'yi-large-rag': { prompt: 2.5, completion: 2.5 },
-    'yi-large-turbo': { prompt: 1.2, completion: 1.2 },
-    //miml models
-    'QwQ-32B': { prompt: 0, completion: 0 },
-    'qwen/qwq-32b': { prompt: 0.29, completion: 0.39 },
-    'anthropic/claude-3.7-sonnet:thinking': { prompt: 3.0, completion: 15.0 },
-    'google/gemini-2.0-flash-001': { prompt: 0.1, completion: 0.4 },
-    'google/gemini-2.0-flash-lite-001': { prompt: 0.075, completion: 0.3 },
-    'anthropic/claude-3.7-sonnet:beta': { prompt: 3.0, completion: 15.0 },
-    'deepseek/deepseek-r1': { prompt: 3, completion: 8 },
-    'perplexity/r1-1776': { prompt: 2, completion: 8 },
-    'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
-    'anthropic/claude-3-opus:beta': { prompt: 15.0, completion: 75.0 },
-    'google/gemini-pro-1.5': { prompt: 2.5, completion: 7.5 },
     'gemini-2.5-pro-preview-03-25': { prompt: 1.25, completion: 10 },
+    'gemini-2.5-pro': { prompt: 1.25, completion: 10 },
+    'gemini-2.5-flash': { prompt: 0.15, completion: 3.5 },
     'gemini-2.5': { prompt: 0, completion: 0 }, // Free for a period of time
     'gemini-1.5-flash-8b': { prompt: 0.075, completion: 0.3 },
     'gemini-1.5-flash': { prompt: 0.15, completion: 0.6 },
@@ -165,6 +147,21 @@ const tokenValues = Object.assign(
     codestral: { prompt: 0.3, completion: 0.9 },
     'ministral-8b': { prompt: 0.1, completion: 0.1 },
     'ministral-3b': { prompt: 0.04, completion: 0.04 },
+    //other custom models
+    'deepseek-chat': { prompt: 0.2, completion: 0.8 },
+    'yi-lightning': { prompt: 0.1, completion: 0.1 },
+    'yi-vision-v2': { prompt: 0.6, completion: 0.6 },
+    //miml models
+    'google/gemini-2.5-pro-preview': { prompt: 1.25, completion: 10 },
+    'google/gemini-2.5-flash-preview-05-20:thinking': { prompt: 0.15, completion: 3.5 },
+    'anthropic/claude-sonnet-4': { prompt: 3, completion: 15 },
+    'anthropic/claude-opus-4': { prompt: 15, completion: 75 },
+    'QwQ-32B': { prompt: 0, completion: 0 },
+    'anthropic/claude-3.7-sonnet:thinking': { prompt: 3.0, completion: 15.0 },
+    'anthropic/claude-3.7-sonnet:beta': { prompt: 3.0, completion: 15.0 },
+    'perplexity/r1-1776': { prompt: 2, completion: 8 },
+    'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
+    'anthropic/claude-3-opus:beta': { prompt: 15.0, completion: 75.0 },
   },
   bedrockValues,
 );
@@ -183,6 +180,8 @@ const cacheTokenValues = {
   'claude-3.5-haiku': { write: 1, read: 0.08 },
   'claude-3-5-haiku': { write: 1, read: 0.08 },
   'claude-3-haiku': { write: 0.3, read: 0.03 },
+  'claude-sonnet-4': { write: 3.75, read: 0.3 },
+  'claude-opus-4': { write: 18.75, read: 1.5 },
 };
 
 /**
