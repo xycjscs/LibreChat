@@ -130,14 +130,16 @@ function AccountSettings() {
           <GearIcon className="icon-md" aria-hidden="true" />
           {localize('com_nav_settings')}
         </Select.SelectItem>
-        <Select.SelectItem
-          value=""
-          onClick={() => setShowTokens(true)}
-          className="select-item text-sm"
-        >
-          <StarIcon className="icon-md" aria-hidden="true" />
-          兑换Token
-        </Select.SelectItem>
+        {startupConfig?.showTokenRedeemButton && (
+          <Select.SelectItem
+            value=""
+            onClick={() => setShowTokens(true)}
+            className="select-item text-sm"
+          >
+            <StarIcon className="icon-md" aria-hidden="true" />
+            兑换Token
+          </Select.SelectItem>
+        )}
         <DropdownMenuSeparator />
         <Select.SelectItem
           aria-selected={true}

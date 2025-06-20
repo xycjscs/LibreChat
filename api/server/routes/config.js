@@ -78,6 +78,7 @@ router.get('/', async function (req, res) {
       turnstile: req.app.locals.turnstileConfig,
       modelSpecs: req.app.locals.modelSpecs,
       balance: req.app.locals.balance,
+      showTokenRedeemButton: isEnabled(process.env.SHOW_TOKEN_REDEEM_BUTTON),
       sharedLinksEnabled,
       publicSharedLinksEnabled,
       analyticsGtmId: process.env.ANALYTICS_GTM_ID,
