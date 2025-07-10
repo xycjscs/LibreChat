@@ -309,7 +309,7 @@ describe('AnthropicClient', () => {
       };
       client.setOptions({ modelOptions, promptCache: true });
       const anthropicClient = client.getClient(modelOptions);
-      expect(anthropicClient.defaultHeaders).not.toHaveProperty('anthropic-beta');
+      expect(anthropicClient._options.defaultHeaders).toBeUndefined();
     });
 
     it('should not add beta header for other models', () => {
@@ -320,7 +320,7 @@ describe('AnthropicClient', () => {
         },
       });
       const anthropicClient = client.getClient();
-      expect(anthropicClient.defaultHeaders).not.toHaveProperty('anthropic-beta');
+      expect(anthropicClient._options.defaultHeaders).toBeUndefined();
     });
   });
 
@@ -507,6 +507,34 @@ describe('AnthropicClient', () => {
       client.setOptions({
         modelOptions: {
           model: 'claude-3.7-sonnet',
+          maxOutputTokens: highTokenValue,
+        },
+      });
+
+      expect(client.modelOptions.maxOutputTokens).toBe(highTokenValue);
+    });
+
+    it('should not cap maxOutputTokens for Claude 4 Sonnet models', () => {
+      const client = new AnthropicClient('test-api-key');
+      const highTokenValue = anthropicSettings.legacy.maxOutputTokens.default * 10; // 40,960 tokens
+
+      client.setOptions({
+        modelOptions: {
+          model: 'claude-sonnet-4-20250514',
+          maxOutputTokens: highTokenValue,
+        },
+      });
+
+      expect(client.modelOptions.maxOutputTokens).toBe(highTokenValue);
+    });
+
+    it('should not cap maxOutputTokens for Claude 4 Opus models', () => {
+      const client = new AnthropicClient('test-api-key');
+      const highTokenValue = anthropicSettings.legacy.maxOutputTokens.default * 6; // 24,576 tokens (under 32K limit)
+
+      client.setOptions({
+        modelOptions: {
+          model: 'claude-opus-4-20250514',
           maxOutputTokens: highTokenValue,
         },
       });
