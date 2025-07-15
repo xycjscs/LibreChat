@@ -128,3 +128,12 @@ block_ips.sh
 blocked_ips.txt
 # SAML Idp cert
 *.cert
+
+# AI Assistants
+/.claude/
+/.cursor/
+/.copilot/
+/.aider/
+/.openai/
+/.tabnine/
+/.codeium
