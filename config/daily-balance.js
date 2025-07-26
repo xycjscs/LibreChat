@@ -1,9 +1,9 @@
 const path = require('path');
+const mongoose = require(path.resolve(__dirname, '..', 'api', 'node_modules', 'mongoose'));
+const { User, Balance } = require('@librechat/data-schemas').createModels(mongoose);
 require('module-alias')({ base: path.resolve(__dirname, '..', 'api') });
 const { silentExit } = require('./helpers');
-const Balance = require('~/models/Balance');
-const User = require('~/models/User');
-const { Transaction } = require('~/models/Transaction');
+const { createTransaction } = require('~/models/Transaction');
 const connect = require('./connect');
 
 (async () => {
@@ -24,7 +24,7 @@ const connect = require('./connect');
       if (balance.tokenCredits < 200000) {
         const amount = 200000 - balance.tokenCredits;
         try {
-          await Transaction.create({
+          await createTransaction({
             user: user._id,
             tokenType: 'credits',
             context: 'admin',
@@ -35,12 +35,12 @@ const connect = require('./connect');
           console.error(error);
           silentExit(1);
         }
-        console.green(`User ${user.email}'s balance has been increased to 100000`);
+        console.green(`User ${user.email}'s balance has been increased to 200000`);
       }
     } else {
       console.yellow(`User ${user.email} has no balance`);
       try {
-        await Transaction.create({
+        await createTransaction({
           user: user._id,
           tokenType: 'credits',
           context: 'admin',
