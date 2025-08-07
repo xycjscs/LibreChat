@@ -1,4 +1,4 @@
-const { matchModelName } = require('../utils');
+const { matchModelName } = require('../utils/tokens');
 const defaultRate = 6;
 
 /**
@@ -163,6 +163,9 @@ const tokenValues = Object.assign(
     'perplexity/r1-1776': { prompt: 2, completion: 8 },
     'anthropic/claude-3.5-sonnet:beta': { prompt: 3.0, completion: 15.0 },
     'anthropic/claude-3-opus:beta': { prompt: 15.0, completion: 75.0 },
+    // GPT-OSS models
+    'gpt-oss-20b': { prompt: 0.05, completion: 0.2 },
+    'gpt-oss-120b': { prompt: 0.15, completion: 0.6 },
   },
   bedrockValues,
 );
