@@ -119,17 +119,19 @@ const otherModels = {
   'deepseek-chat': 65526,
   'yi-lightning': 16375,
   'yi-vision-v2': 4086,
-  //miml
-  'QwQ-32B': 99900,
+  //miml models
+  'GPT-OSS': 40000,
+  'openai/gpt-5-chat': 399000,
+  'openai/gpt-5-mini': 399000,
+  'google/gemini-2.5-pro': 1000000,
+  'google/gemini-2.5-flash': 1000000,
+  'anthropic/claude-sonnet-4': 199990,
+  'anthropic/claude-opus-4': 199990,
+  'anthropic/claude-opus-4.1': 199990,
   'anthropic/claude-3.7-sonnet:thinking': 199990,
   'anthropic/claude-3.7-sonnet:beta': 199990,
   'anthropic/claude-3.5-sonnet:beta': 199990,
   'anthropic/claude-3-opus:beta': 199990,
-  'perplexity/r1-1776': 127000,
-  'google/gemini-2.5-pro-preview': 2790000,
-  'google/gemini-2.5-flash-preview-05-20:thinking': 2790000,
-  'anthropic/claude-sonnet-4': 199990,
-  'anthropic/claude-opus-4': 199990,
 };
 
 const deepseekModels = {
